@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+
+<nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <span class="navbar-brand h1">Company Dashboard</span>
+  </div>
+</nav>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    {% if current_user.is_authenticated %}
+    <h2>Welcome {{ current_user.username }}</h2>
+    {% endif %}
+</div>
+<div class="row">
+  <div class="col-sm-6 mb-3 mb-sm-0">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Update Profile</h5>
+        <p class="card-text">Please fill out these required fields before creating a new drive.</p>
+        <a href="{{ url_for('views.company_profile') }}" class="btn btn-primary">Update Profile</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Create Drive</h5>
+        <p class="card-text">To create new placement drives, click here.</p>
+        <a href="{{ url_for('views.create_drive') }}" class="btn btn-primary">Create Drive</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-8">
+    {% for drive in my_drives %}
+    <div class="card mb-3">
+        <div class="card-header bg-light text-dark">
+          {{ drive.job_title }}
+        </div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <thead><tr><th>Applicant</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              {% for application in drive.applications %}
+              <tr>
+                <td>
+                  {{ application.student.username }}
+                  {% if application.student.resume_file %}
+                  <a href="{{ url_for('static', filename='uploads/' + application.student.resume_file) }}" target="_blank" class="badge bg-info text-decoration-none">Resume</a>
+                  {% endif %}
+                </td>
+                <td>{{ application.status }}</td>
+                <td>
+                  {% if application.status=="pending" %}
+                  <a href="{{ url_for('views.update_application', app_id=application.id, action='accept') }}" class="badge bg-success">Accept</a>
+                  <a href="{{ url_for('views.update_application', app_id=application.id, action='reject') }}" class="badge bg-danger">Reject</a>  
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+
+<div class="card border-warning shadow-sm mb-3">
+    {% for drive in pending_drives %}
+        <div class="card-header border-warning text-dark d-flex justify-content-between align-items-center">
+        <span>{{ drive.job_title }}</span>
+        {% if drive.is_approved %}
+            <span class="badge bg-success">Published</span>
+        {% else %}
+            <span class="badge bg-warning text-dark">Pending admin approval</span>
+        {% endif %}
+    </div>
+    <div class="card-body">        
+    </div>    
+    {% endfor %}
+</div>
+{% endblock %}
+
+<!-- <a href="{{ url_for('views.update_app', app_id=app.id, action='accept') }}" method="POST" button type="submit" class="btn btn-sm btn-success">Accept</a>
+                                    <a href="{{ url_for('views.update_app', app_id=app.id, action='reject') }}" method="POST" button type="submit" class="btn btn-sm btn-danger">Reject</a>
+                                  -->
+   
+                                   
+                                  <!-- <form method = 'POST' action = "{{ url_for('views.update_app', a_id=app.id) }}">
+                                 <select name="status" class="form-select" required>
+                                    <option value="accept">accept</option>
+                                    <option value="reject">reject</option>
+                                </select><button type='submit' class="btn btn-info w-100">Submit</button>
+                                </form>-->

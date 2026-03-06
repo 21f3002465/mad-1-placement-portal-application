@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid row justify-content-center mt-5">
+     <div class="col-md-4">
+          <div class="card shadow-sm">
+             <div class="card-header bg-info text-white text-center"><h4>Company Profile</h4></div>
+             <div class="card-body">
+                <form method="POST" action="{{ url_for('views.company_profile') }}">
+                     <div class="mb-3">
+                        <label>Company Name</label>
+                        <input type="text" name="company_name" class="form-control" required>
+                    </div>
+                     <div class="mb-3">
+                        <label>HR Contact</label>
+                          <input type="number" class="form-control" id="exampleFormControlInput1" name="HR_contact">
+                     </div>
+                     <div class="mb-3">
+                        <label>Website</label>
+                        <input type="text" id="inputPassword5" class="form-control"  name="website">
+                    </div>
+                    <button type='submit' class="btn btn-info w-100">Submit</button>
+            </form>
+            <div class="mt-3 text-center">
+                <a href="{{ url_for('views.company_dash')}}">Go Back</a>
+            </div>
+        </div>
+    </div>
+ </div>
+</div>
+{% endblock %}

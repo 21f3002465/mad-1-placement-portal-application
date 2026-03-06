@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mt-4">
+    <div class="col-sm-4">
+    <div class="card" style="width: 40rem;">
+        <div class="card-header bg-primary text-white">Create Drive</div>
+         <div class="card-body">
+            <form method="POST" action="{{ url_for('views.create_drive') }}">
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" name="job_title" class="form-control mb-0" placeholder="job title" required>
+                </div>
+                <div class="form-group mb-0">
+                    <label>Job Description</label>
+                    <textarea name="job_description" class="form-control mb-0" placeholder="job description" required></textarea>
+                </div>
+                <div class="form-group mb-0">
+                    <label>Application deadline</label>
+                    <input type="text" class="form-control mb-0" name="application_deadline" data-date-format="dd/mm/yyyy", placeholder="yyyy-mm-dd" required>
+                </div>
+                <div class="form-group mb-0">
+                    <label>Eligibility criteria</label>
+                    <textarea name="eligibility_criteria" class="form-control mb-3" placeholder="eligibility criteria" required></textarea> 
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Post</button>        
+            </form>
+         </div>
+    </div>
+</div>
+</div>
+{% endblock %}
